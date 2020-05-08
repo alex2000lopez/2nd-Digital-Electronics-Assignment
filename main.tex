@@ -1,0 +1,234 @@
+\documentclass[a4paper, 11pt, oneside]{article} 
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+
+% Custom titling format
+
+\usepackage{secdot}
+\usepackage{titling}
+\usepackage[margin=1.5in]{geometry}
+\date{\today}
+
+% Allows bold and italics math
+
+\usepackage{bm}
+
+
+% Remove numbering from sections but keep them in TOC
+
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{animate}
+\usepackage{floatrow}
+\usepackage{caption}
+\usepackage{booktabs}
+
+\usepackage{svg}
+\usepackage{siunitx}
+\usepackage{tikz} % To generate the plot from csv
+\usepackage{pgfplots}
+
+% Allows to place the legend below plot
+
+\pgfplotsset{compat=newest} 
+
+% Allows to enter the units nicely
+
+\usepgfplotslibrary{units} 
+
+
+% Cute boxes
+
+\usepackage{xcolor}
+\usepackage[framemethod=default]{mdframed}
+
+\newmdenv[skipabove=7pt,
+          skipbelow=7pt,
+          rightline=false,
+          leftline=true,
+          topline=false,
+          bottomline=false,
+          linecolor=orange!60!gray,
+          backgroundcolor=gray!15,
+          innerleftmargin=5pt,
+          innerrightmargin=2pt,
+          innertopmargin=5pt,
+          leftmargin=0cm,
+          rightmargin=0cm,
+          linewidth=3pt,
+          innerbottommargin=5pt]{cBox}
+          
+          
+          
+% Setting for writing code
+      
+\usepackage{minted}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{beramono}
+
+\newenvironment{code}[2][]
+ {\VerbatimEnvironment
+  \begin{minted}[
+        frame=lines,
+        framesep=2mm,
+        baselinestretch=1.2,
+        bgcolor=bg,
+        linenos,
+        fontsize=\footnotesize
+        ]{#2}}
+ {\end{minted}}
+
+% Defines background colour of code
+\definecolor{bg}{rgb}{0.95, 0.95, 0.95}
+ 
+% Adds the º symbol
+\usepackage{gensymb}
+ 
+ 
+% Includes "References" in the table of contents
+
+\usepackage[nottoc]{tocbibind}
+
+\usepackage[autostyle = true]{csquotes}
+
+\usepackage[backend=biber,style=ieee]{biblatex}
+\urlstyle{same}
+\addbibresource{bibliography.bib}
+
+% Allows subsubsubsections
+ 
+\makeatletter
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{0ex}%
+    {-3.25ex plus -1ex minus -0.2ex}%
+    {1.5ex plus 0.2ex}%
+    {\normalfont\normalsize\bfseries}}
+\makeatother
+ 
+\stepcounter{secnumdepth}
+\stepcounter{tocdepth}
+ 
+% Hyperlinks settings
+
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=false,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+
+% Settings of minted (Writing code)
+
+\newenvironment{code}[2][]
+ {\VerbatimEnvironment
+  \begin{minted}[
+        frame=lines,
+        framesep=2mm,
+        baselinestretch=1.2,
+        bgcolor=bg,
+        linenos,
+        fontsize=\footnotesize]{#2}}
+ {\end{minted}}
+ 
+
+\newcommand{\inputcode}[2][vhdl]{\inputminted[frame=lines,
+                                              framesep=2mm,
+                                              baselinestretch=1.2,
+                                              bgcolor=bg,
+                                              linenos,
+                                              fontsize=\footnotesize
+                                              ]{#1}{#2}}
+
+
+
+% Custom part page
+
+% \usepackage{tikz} -> Included before
+\usetikzlibrary{calc}
+
+\makeatletter
+\@addtoreset{section}{part}
+\makeatother  
+
+\renewcommand{\thepart}{\arabic{part}}
+\def\topleft{4}
+
+\newcommand{\cpart}[1]{
+    \clearpage
+    \stepcounter{part}
+    \pagestyle{empty}
+    \begin{tikzpicture}[overlay,remember picture]
+    \coordinate(ptopleft) at ($(current page.north west)+(\topleft,0)$);
+    \foreach \i in{0,.1,.2,.3,.5,.6,.9,1.1,1.2,1.3,1.5,1.6,1.8,1.9,2}
+    \draw[gray!70]($(ptopleft)+(\i,0)$)--+(0,-\paperheight);
+    \node[white,fill=black,minimum size=1.5cm](A) at ($(ptopleft)+(1,-2)$){\huge\thepart};
+    \node [anchor=south,ultra thick,yshift=-1mm]at(A.north){\Large PART};
+    \node [fill=white,anchor=north,very thick,right=-2mm,inner sep=5mm]at($(ptopleft)+(0,-0.5\paperheight)$){\Huge #1};
+    \end{tikzpicture}
+    \addcontentsline{toc}{part}{\thepart\hspace{1em}#1}
+    \clearpage
+    \pagestyle{plain}
+}
+
+
+%%---------------------------------------------------------------------------------------------
+%% Document
+%%---------------------------------------------------------------------------------------------
+
+\begin{document} 
+
+% ANIMATION ON = 1 / ANIMATION OFF = 0
+\newcounter{ANIMATION}
+\setcounter{ANIMATION}{1}
+
+% Includes the title page
+\include{Title_Page}
+
+% Preface
+\include{Preface}
+
+% Table of contents
+\thispagestyle{empty}
+\setcounter{page}{0}
+\tableofcontents
+\clearpage
+
+% Add later
+
+% \listoffigures
+% \listoftables
+% \clearpage
+
+% Document
+
+
+\include{Introduction}
+\include{Keypad}
+\include{RAM}
+\include{Safecode}
+\include{STATE_FSM_+_DISPLAY}
+\include{DIGITS}
+\include{Password}
+\include{Pass_Result}
+\include{Delays}
+\include{Reset}
+\include{Enable&autostart}
+\include{Conclusion}
+
+\clearpage
+\printbibliography
+
+
+\end{document}

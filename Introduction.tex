@@ -1,0 +1,35 @@
+\section{Introduction}
+
+A security box or safe-deposit box stores our personal belongings safely, only being accessible by ourselves or the ones we trust. It is common to have one at home, but they can also be found at hotel rooms. This device is usually a metal box, often with a concrete layer for not only making it more secure, but heavier, so that burglars have it more difficult to take it with them. The door mechanism is usually a multi-point lock, and the opening method depends on the security box. Different opening mechanisms are widely used in commercial security boxes, namely a key, a multi-combination mechanism, a keypad, a fingerprint scanner, and so on.
+
+\subsection{Objectives}
+
+The goal of this project is to develop the whole electronics part of a security box. The security box will be operated by a keypad in order to enter a 4-digit password. To set the password that the user wants, dip switches will be installed inside, so that only the user can change it.
+
+\subsection{Opening sequence}
+\label{sec:OPENING_SEQ}
+
+To enter a password, the “start button” or asterisk \emph{*} must be pressed first. Then, the password can be introduced, with two restrictions:
+
+\begin{itemize}
+    \item Password must be a 4 digit number.
+    \item Password must not have two or more consecutive repeated digits, i.e. $1122$, $1111$ or $1223$ are not valid.
+\end{itemize}
+
+\vspace{-0.2cm}
+
+\medskip
+
+In order to open/close the security box, the “enter password” button or hash \textit{\#}  must be pressed. Only then the password will be processed by the system. Once pressed, the password will appear on the screen for a brief amount of time.\medskip
+
+After this, both passwords, the one entered by the keypad and the one stored inside the security box will be compared. If they are equal, after a few seconds an \textit{Open} message will appear, and, at the same time, a green LED will be switched on, which in real life would be the motor to open the multi-point lock; otherwise a message of \textit{Error} will be displayed and a red LED will be switched on, indicating that the passwords did not match.
+
+\subsection{Password setting mechanism}
+
+Once the security box is opened, the user has the option to set a new password. The mechanism involves 4 dip switches, one for each of the 4 digits.\medskip
+
+Each digit must be in the range of 0 to 9 and must be introduced in binary, as each selector consists of four independent switches, being the top one the Most Significant Bit (MSB).\medskip
+
+The new password must meet the requirements from Subsection \ref{sec:OPENING_SEQ}, because otherwise, the GALs will not be able to compare both passwords correctly.
+
+
